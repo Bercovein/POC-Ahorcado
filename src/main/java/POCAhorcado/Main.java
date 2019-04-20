@@ -10,6 +10,7 @@ public class Main {
         try {
             Palabra palabra = palabraRandom();;
             List<Jugador> jugadores = cargarJugadores();
+            char [] abcdario = abcdario();
 
             System.out.println(palabra.toString());
             System.out.println(jugadores.toString());
@@ -25,6 +26,25 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static char[] abcdario(){
+
+        try{
+            char[] abc = null;
+            char letra = 'a';
+
+            for (int i = 0; i < 27; i++){
+
+                abc[i] = letra;
+                letra ++;
+            }
+            return abc;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 

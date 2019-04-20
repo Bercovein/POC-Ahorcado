@@ -6,7 +6,7 @@ public class Letra {
     private boolean bool;
 
 
-    public Letra( char letra) {
+    public Letra(char letra) {
         this.letra = letra;
         this.bool = false;
     }

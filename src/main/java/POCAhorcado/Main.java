@@ -1,6 +1,7 @@
 package POCAhorcado;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -8,12 +9,18 @@ public class Main {
     public static void main ( String[]args) {
 
         try {
-            Palabra palabra = palabraRandom();;
-            List<Jugador> jugadores = cargarJugadores();
-            char [] abcdario = abcdario();
+            //Palabra palabra = palabraRandom();
+            //List<Jugador> jugadores = cargarJugadores();
+            List<Character> abcdario = abcdario();
+
+            System.out.println(abcdario);
+
+            Palabra palabra = new Palabra("Jorge");
 
             System.out.println(palabra.toString());
-            System.out.println(jugadores.toString());
+
+            //jugar(jugadores,palabra);
+
 
             //me tira este error:
             // Client does not support authentication protocol requested by server; consider upgrading MySQL client
@@ -29,15 +36,22 @@ public class Main {
         }
     }
 
-    public static char[] abcdario(){
+    public static void jugar(List<Jugador> jugadores, Palabra palabra){
+
+        palabra.toStringLetters();
+
+
+    }
+
+    public static List<Character> abcdario(){
 
         try{
-            char[] abc = null;
+            List<Character> abc = new ArrayList<Character>();
             char letra = 'a';
 
-            for (int i = 0; i < 27; i++){
+            for (int i = 0; i < 26; i++){
 
-                abc[i] = letra;
+                abc.add(letra);
                 letra ++;
             }
             return abc;
@@ -73,7 +87,7 @@ public class Main {
     public static List<Jugador> cargarJugadores(){
 
         try{
-            List<Jugador> listado = null;
+            List<Jugador> listado = new ArrayList<Jugador>();
 
             Connection myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ahorcado", "root", "fusah222");
             Statement myStatement = myConnection.createStatement();

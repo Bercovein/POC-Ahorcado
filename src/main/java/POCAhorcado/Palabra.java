@@ -11,12 +11,22 @@ public class Palabra {
 
     public Palabra(String palabra) {
         this.palabra = palabra;
-        char [] letras = palabra.toCharArray();
 
-        for(int i=0; i<letras.length; i++){
-            Letra letra = new Letra(letras[i]);
+        for(int i=0; i<(palabra.length()); i++){
+            Letra letra = new Letra(palabra.charAt(i));
             this.letras.add(letra);
         }
+    }
+
+    public void toStringLetters(){
+
+        this.letras.stream().forEach(letra->{
+           if(letra.isBool()){
+               System.out.print(letra.getLetra());
+           }else{
+               System.out.print("_");
+           }
+        });
     }
 
     public String getPalabra() {
@@ -52,6 +62,9 @@ public class Palabra {
 
     @Override
     public String toString() {
-        return palabra;
+        return "Palabra{" +
+                "palabra='" + this.palabra + '\'' +
+                ", letras=" + /*this.letras +*/
+                '}';
     }
 }

@@ -2,6 +2,8 @@ create database ahorcado;
 
 use ahorcado;
 
+
+
 create table palabras(
 
 	id_palabra int auto_increment,

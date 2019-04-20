@@ -5,8 +5,6 @@ public class Letra {
     private char letra;
     private boolean bool;
 
-    public Letra() {
-    }
 
     public Letra( char letra) {
         this.letra = letra;

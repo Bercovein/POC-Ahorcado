@@ -1,20 +1,25 @@
 package POCAhorcado;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 public class Palabra {
 
     private String palabra;
-    private List<Letra> letras;
+    private List<Letra> letras = new ArrayList<Letra>();
 
 
-    public Palabra(String palabra) {
+    Palabra(String palabra) {
         this.palabra = palabra;
 
-        for(int i=0; i<(palabra.length()); i++){
-            Letra letra = new Letra(palabra.charAt(i));
-            this.letras.add(letra);
+        char[] caracteres = palabra.toCharArray();
+
+        for (int i = 0; i < caracteres.length; i++){
+
+            Letra L = new Letra(caracteres[i]);
+            letras.add(L);
         }
     }
 
@@ -27,6 +32,26 @@ public class Palabra {
                System.out.print("_");
            }
         });
+    }
+
+    public boolean letterIsHere(char letter){
+
+        Letra newsletter = new Letra(letter);
+        boolean bool = false;
+
+
+        if(this.letras.contains(newsletter)){ //tal vez de siempre false?
+
+            //poner en true la letra
+
+            this.letras.stream().filter(letra->letra.getLetra()==letter); ///are you sure?
+            bool = true;
+
+
+
+        }
+
+        return bool;
     }
 
     public String getPalabra() {
@@ -62,9 +87,7 @@ public class Palabra {
 
     @Override
     public String toString() {
-        return "Palabra{" +
-                "palabra='" + this.palabra + '\'' +
-                ", letras=" + /*this.letras +*/
-                '}';
+        return this.palabra +
+                ", letras = " /* + this.letras +*/;
     }
 }

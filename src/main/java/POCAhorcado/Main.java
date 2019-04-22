@@ -3,24 +3,28 @@ package POCAhorcado;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 public class Main {
 
+    static List<Character> abcdario = abcdario();
+
     public static void main ( String[]args) {
 
-        try {
-            //Palabra palabra = palabraRandom();
-            //List<Jugador> jugadores = cargarJugadores();
-            List<Character> abcdario = abcdario();
+        try{
 
-            System.out.println(abcdario);
+            Palabra palabra = palabraRandom();
+            List<Jugador> jugadores = cargarJugadores();
 
-            Palabra palabra = new Palabra("Jorge");
 
-            System.out.println(palabra.toString());
+            System.out.println("Abecedario: " + Objects.requireNonNull(abcdario()).toString());
+
+            System.out.println("Palabra: " + palabra.toString());
+
+            System.out.println("Jugadores: " + jugadores.toString());
 
             //jugar(jugadores,palabra);
-
 
             //me tira este error:
             // Client does not support authentication protocol requested by server; consider upgrading MySQL client
@@ -30,15 +34,20 @@ public class Main {
             //si acierta, refresca las letras y sigue adivinando
             //sino sigue el otro y repite.
             //gana el que adivina la ultima letra..
-
-        } catch (Exception e) {
+        }catch (NullPointerException e){
             System.out.println(e.getMessage());
         }
     }
 
-    public static void jugar(List<Jugador> jugadores, Palabra palabra){
+    public static void jugar(Jugador player, Palabra palabra){
 
-        palabra.toStringLetters();
+        if(player!=null && palabra != null){
+
+            Random rand = new Random();
+            char letraRandom = abcdario.remove(rand.nextInt(27));
+            System.out.println(letraRandom);
+            
+        }
 
 
     }
@@ -50,18 +59,25 @@ public class Main {
             char letra = 'a';
 
             for (int i = 0; i < 26; i++){
-
                 abc.add(letra);
-                letra ++;
+                letra++;
             }
             return abc;
 
-        }catch(Exception e){
+        }catch (ArrayIndexOutOfBoundsException e){
             System.out.println(e.getMessage());
             return null;
         }
     }
 
+    public static Palabra palabraRandom(){
+
+        Palabra palabra = new Palabra("otorrinolaringologo");
+
+        return palabra;
+    }
+
+    /*
     public static Palabra palabraRandom(){
 
         try{
@@ -108,6 +124,24 @@ public class Main {
             return null;
         }
     }
+    */
 
+    public static List<Jugador> cargarJugadores(){
 
+        try{
+            List<Jugador> players = new ArrayList<Jugador>();
+
+            Jugador readyPlayerOne = new Jugador(1,"Milhouse");
+            Jugador readyPlayerTwo = new Jugador(2,"Bart");
+
+            players.add(readyPlayerOne);
+            players.add(readyPlayerTwo);
+
+            return players;
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

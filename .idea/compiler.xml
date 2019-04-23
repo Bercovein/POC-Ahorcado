@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="POC-Ahorcado" />
+        <module name="POCAhorcado" />
       </profile>
     </annotationProcessing>
   </component>

@@ -24,7 +24,7 @@ public class Main {
 
             System.out.println("Jugadores: " + jugadores.toString());
 
-            //jugar(jugadores,palabra);
+            //play(jugadores,palabra);
 
             //me tira este error:
             // Client does not support authentication protocol requested by server; consider upgrading MySQL client
@@ -39,24 +39,30 @@ public class Main {
         }
     }
 
-    public static void jugar(Jugador player, Palabra palabra){
+    public static void play(Jugador player, Palabra palabra){
 
-        if(player!=null && palabra != null){
+        if(player!=null && palabra != null) {
 
             Random rand = new Random();
-            char letraRandom = abcdario.remove(rand.nextInt(27));
-            System.out.println(letraRandom);
-            
-        }
+            boolean bool;
 
+            do{
+                char letraRandom = abcdario.remove(rand.nextInt(Objects.requireNonNull(abcdario()).size()));
+                System.out.println(player.getNombre_jugador() + " elijo la letra " + letraRandom);
+                bool = palabra.letterIsHere(letraRandom);
+            }while(bool);
 
+            System.out.println(palabra.toStringLetters());
+
+        }else
+            System.out.println("ALGO MALIO SAL");
     }
 
     public static List<Character> abcdario(){
 
         try{
             List<Character> abc = new ArrayList<Character>();
-            char letra = 'a';
+            char letra = 'A';
 
             for (int i = 0; i < 26; i++){
                 abc.add(letra);
@@ -72,9 +78,7 @@ public class Main {
 
     public static Palabra palabraRandom(){
 
-        Palabra palabra = new Palabra("otorrinolaringologo");
-
-        return palabra;
+        return new Palabra("otorrinolaringologo");
     }
 
     /*

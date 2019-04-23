@@ -1,7 +1,6 @@
 package POCAhorcado;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,22 +15,36 @@ public class Palabra {
 
         char[] caracteres = palabra.toCharArray();
 
-        for (int i = 0; i < caracteres.length; i++){
+        for (char caractere : caracteres) {
 
-            Letra L = new Letra(caracteres[i]);
+            Letra L = new Letra(caractere);
             letras.add(L);
         }
     }
 
-    public void toStringLetters(){
+    public boolean winOrLose(){
 
-        this.letras.stream().forEach(letra->{
+        for (Letra le: letras) {
+            le.isBool();
+        }
+
+        return boolean;
+    }
+
+
+    public String toStringLetters(){
+
+        String palabra = "";
+
+        this.letras.forEach(letra->{
            if(letra.isBool()){
-               System.out.print(letra.getLetra());
+               palabra.concat(Character.toString(letra.getLetra()));
            }else{
-               System.out.print("_");
+               palabra.concat("_");
            }
         });
+
+        return palabra;
     }
 
     public boolean letterIsHere(char letter){
@@ -39,18 +52,11 @@ public class Palabra {
         Letra newsletter = new Letra(letter);
         boolean bool = false;
 
+        if(this.letras.contains(newsletter)){
 
-        if(this.letras.contains(newsletter)){ //tal vez de siempre false?
-
-            //poner en true la letra
-
-            this.letras.stream().filter(letra->letra.getLetra()==letter); ///are you sure?
+            this.letras.stream().filter(letra->letra.getLetra()==letter).forEach(letra -> letra.setBool(true));
             bool = true;
-
-
-
         }
-
         return bool;
     }
 

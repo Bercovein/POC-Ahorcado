@@ -24,11 +24,15 @@ public class Palabra {
 
     public boolean winOrLose(){
 
-        for (Letra le: letras) {
-            le.isBool();
-        }
+        boolean bool = Boolean.TRUE;
 
-        return boolean;
+        for (Letra le: letras) {
+            if(!le.isBool()){
+                bool = Boolean.FALSE;
+                break;
+            }
+        }
+        return bool;
     }
 
 
@@ -53,7 +57,6 @@ public class Palabra {
         boolean bool = false;
 
         if(this.letras.contains(newsletter)){
-
             this.letras.stream().filter(letra->letra.getLetra()==letter).forEach(letra -> letra.setBool(true));
             bool = true;
         }

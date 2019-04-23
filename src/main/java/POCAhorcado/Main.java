@@ -13,10 +13,8 @@ public class Main {
     public static void main ( String[]args) {
 
         try{
-
             Palabra palabra = palabraRandom();
-            List<Jugador> jugadores = cargarJugadores();
-
+            List<Thread> jugadores = cargarJugadores();
 
             System.out.println("Abecedario: " + Objects.requireNonNull(abcdario()).toString());
 
@@ -39,24 +37,7 @@ public class Main {
         }
     }
 
-    public static void play(Jugador player, Palabra palabra){
 
-        if(player!=null && palabra != null) {
-
-            Random rand = new Random();
-            boolean bool;
-
-            do{
-                char letraRandom = abcdario.remove(rand.nextInt(Objects.requireNonNull(abcdario()).size()));
-                System.out.println(player.getNombre_jugador() + " elijo la letra " + letraRandom);
-                bool = palabra.letterIsHere(letraRandom);
-            }while(bool);
-
-            System.out.println(palabra.toStringLetters());
-
-        }else
-            System.out.println("ALGO MALIO SAL");
-    }
 
     public static List<Character> abcdario(){
 
@@ -130,13 +111,13 @@ public class Main {
     }
     */
 
-    public static List<Jugador> cargarJugadores(){
+    public static List<Thread> cargarJugadores(){
 
         try{
-            List<Jugador> players = new ArrayList<Jugador>();
+            List<Thread> players = new ArrayList<Thread>();
 
-            Jugador readyPlayerOne = new Jugador(1,"Milhouse");
-            Jugador readyPlayerTwo = new Jugador(2,"Bart");
+            Thread readyPlayerOne = new Jugador(1,"Milhouse");
+            Thread readyPlayerTwo = new Jugador(2,"Bart");
 
             players.add(readyPlayerOne);
             players.add(readyPlayerTwo);

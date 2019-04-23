@@ -1,18 +1,37 @@
 package POCAhorcado;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
-public class Jugador {
+public class Jugador extends Thread{
 
     private Integer id_jugador;
     private String nombre_jugador;
 
-
-    public Jugador( Integer id_jugador, String nombre_jugador ) {
+    Jugador( Integer id_jugador, String nombre_jugador ) {
         this.id_jugador = id_jugador;
         this.nombre_jugador = nombre_jugador;
     }
 
+    public synchronized void run(Palabra palabra, List<Character> abcdario){
+
+        if(palabra != null) {
+
+            Random rand = new Random();
+            boolean bool;
+
+            do{
+                char letraRandom = abcdario.remove(rand.nextInt(abcdario.size()));
+                System.out.println(this.getNombre_jugador() + " elijo la letra " + letraRandom);
+                bool = palabra.letterIsHere(letraRandom);
+            }while(bool);
+
+            System.out.println(palabra.toStringLetters());
+
+        }else
+            System.out.println("ALGO MALIO SAL");
+    }
     public Integer getId_jugador() {
         return id_jugador;
     }

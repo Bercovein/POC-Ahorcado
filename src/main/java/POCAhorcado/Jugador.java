@@ -1,36 +1,65 @@
 package POCAhorcado;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+
+import static POCAhorcado.GameData.abcdario;
+import static POCAhorcado.GameData.palabra;
 
 public class Jugador extends Thread{
 
     private Integer id_jugador;
     private String nombre_jugador;
+    static boolean playing = Boolean.FALSE;
 
     Jugador( Integer id_jugador, String nombre_jugador ) {
         this.id_jugador = id_jugador;
         this.nombre_jugador = nombre_jugador;
     }
 
-    public synchronized void run(Palabra palabra, List<Character> abcdario){
+    synchronized void play(){
 
-        if(palabra != null) {
+        while(playing){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        playing = true;
+
+        if(!palabra.winOrLose()){
 
             Random rand = new Random();
-            boolean bool;
+            boolean bool =Boolean.FALSE;
 
             do{
-                char letraRandom = abcdario.remove(rand.nextInt(abcdario.size()));
-                System.out.println(this.getNombre_jugador() + " elijo la letra " + letraRandom);
-                bool = palabra.letterIsHere(letraRandom);
-            }while(bool);
+                if(abcdario.size()!=0) {
+                    String letraRandom = abcdario.remove(rand.nextInt(abcdario.size()));
+                    System.out.println(this.getNombre_jugador() + " elijo la letra " + letraRandom);
+                    bool = palabra.letterIsHere(letraRandom);
+                }
+            }while(bool || !palabra.winOrLose());
 
-            System.out.println(palabra.toStringLetters());
+        }else{
+            System.out.println("Ganador: " + this.getNombre_jugador());
+            //aca deberia guardar el ganador
+        }
 
-        }else
-            System.out.println("ALGO MALIO SAL");
+        playing = false;
+        notify();
+
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void run(){
+
+        while(!palabra.winOrLose()) play();
     }
     public Integer getId_jugador() {
         return id_jugador;

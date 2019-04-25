@@ -21,7 +21,10 @@ public class Jugador extends Thread{
 
         while(playing){
             try {
+                System.out.println("Soy " + this.getNombre_jugador() + " y me voy a dormir");
                 wait();
+                System.out.println("Soy " + this.getNombre_jugador() + " y me desperté!");
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

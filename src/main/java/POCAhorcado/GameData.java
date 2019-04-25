@@ -1,8 +1,5 @@
 package POCAhorcado;
 
-import org.apache.wicket.util.string.Strings;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

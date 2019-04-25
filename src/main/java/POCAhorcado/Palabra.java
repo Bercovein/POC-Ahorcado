@@ -24,6 +24,7 @@ public class Palabra {
 
     public boolean winOrLose(){
 
+
         List<Letra> result = this.letras.stream()
                 .filter(letra -> !letra.isBool())
                 .collect(Collectors.toList());

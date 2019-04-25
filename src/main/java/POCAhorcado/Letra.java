@@ -2,19 +2,19 @@ package POCAhorcado;
 
 public class Letra {
 
-    private char letra;
+    private String letra;
     private boolean bool;
 
-    Letra(char letra) {
+    Letra(String letra) {
         this.letra = letra;
         this.bool = false;
     }
 
-    public char getLetra() {
+    public String getLetra() {
         return letra;
     }
 
-    public void setLetra( char letra ) {
+    public void setLetra( String letra ) {
         this.letra = letra;
     }
 
@@ -24,5 +24,10 @@ public class Letra {
 
     public void setBool( boolean bool ) {
         this.bool = bool;
+    }
+
+    @Override
+    public String toString() {
+        return letra;
     }
 }

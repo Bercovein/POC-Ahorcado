@@ -3,63 +3,64 @@ package POCAhorcado;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Palabra {
 
     private String palabra;
     private List<Letra> letras = new ArrayList<Letra>();
+    private boolean finJuego = Boolean.FALSE;
 
 
     Palabra(String palabra) {
+
         this.palabra = palabra;
 
-        char[] caracteres = palabra.toCharArray();
-
-        for (char caractere : caracteres) {
-
-            Letra L = new Letra(caractere);
+        for(char ch: palabra.toCharArray()){
+            Letra L = new Letra(Character.toString(ch));
             letras.add(L);
         }
     }
 
     public boolean winOrLose(){
 
-        boolean bool = Boolean.TRUE;
+        List<Letra> result = this.letras.stream().filter(letra -> !letra.isBool()).collect(Collectors.toList())
+        //ver que esto funcione, devuelva un true cuando termine el juego
 
-        for (Letra le: letras) {
-            if(!le.isBool()){
-                bool = Boolean.FALSE;
-                break;
-            }
-        }
-        return bool;
+        return this.finJuego;
     }
 
+    public StringBuffer toStringLetters(){
 
-    public String toStringLetters(){
-
-        String palabra = "";
+        StringBuffer palabra = new StringBuffer();
 
         this.letras.forEach(letra->{
            if(letra.isBool()){
-               palabra.concat(Character.toString(letra.getLetra()));
-           }else{
-               palabra.concat("_");
-           }
-        });
+               palabra.append(letra.getLetra());
 
+           }else{
+               palabra.append("_");
+
+           }
+            palabra.append(" ");
+        });
         return palabra;
     }
 
-    public boolean letterIsHere(char letter){
+    public boolean letterIsHere(String letter){
 
-        Letra newsletter = new Letra(letter);
         boolean bool = false;
 
-        if(this.letras.contains(newsletter)){
-            this.letras.stream().filter(letra->letra.getLetra()==letter).forEach(letra -> letra.setBool(true));
+        List<Letra> filtro = this.letras.stream().filter(letra-> letra.getLetra().equals(letter)).collect(Collectors.toList());
+
+        if(filtro.size()!=0){
+            this.letras.stream().filter(letra-> letra.getLetra().equals(letter)).forEach(letra -> letra.setBool(true));
+            System.out.println("Acertaste la letra " + letter + "!");
             bool = true;
         }
+
+        System.out.println("La palabra es: " + this.toStringLetters());
+
         return bool;
     }
 
@@ -96,7 +97,6 @@ public class Palabra {
 
     @Override
     public String toString() {
-        return this.palabra +
-                ", letras = " /* + this.letras +*/;
+        return "Palabra: " + this.palabra + ", Letras: " +  letras.toString();
     }
 }

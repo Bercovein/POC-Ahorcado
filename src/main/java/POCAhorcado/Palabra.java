@@ -9,7 +9,7 @@ public class Palabra {
 
     private String palabra;
     private List<Letra> letras = new ArrayList<Letra>();
-    private boolean finJuego = Boolean.FALSE;
+    private static boolean gameOver = Boolean.FALSE;
 
 
     Palabra(String palabra) {
@@ -22,26 +22,12 @@ public class Palabra {
         }
     }
 
-    public boolean winOrLose(){
-
-
-        List<Letra> result = this.letras.stream()
-                .filter(letra -> !letra.isBool())
-                .collect(Collectors.toList());
-
-        if(result.size() == 0){
-            this.setFinJuego(Boolean.TRUE);
-        }
-
-        return this.isFinJuego();
+    public boolean isGameOver() {
+        return gameOver;
     }
 
-    public boolean isFinJuego() {
-        return finJuego;
-    }
-
-    public void setFinJuego( boolean finJuego ) {
-        this.finJuego = finJuego;
+    public void setGameOver( boolean finJuego ) {
+        gameOver = finJuego;
     }
 
     public StringBuffer toStringLetters(){
@@ -49,13 +35,13 @@ public class Palabra {
         StringBuffer palabra = new StringBuffer();
 
         this.letras.forEach(letra->{
-           if(letra.isBool()){
-               palabra.append(letra.getLetra());
+            if(letra.isBool()){
+                palabra.append(letra.getLetra());
 
-           }else{
-               palabra.append("_");
+            }else{
+                palabra.append("_");
 
-           }
+            }
             palabra.append(" ");
         });
         return palabra;
@@ -63,35 +49,42 @@ public class Palabra {
 
     public boolean letterIsHere(String letter){
 
-        boolean bool = false;
+        boolean playAgain = false;
 
         List<Letra> filtro = this.letras.stream().filter(letra-> letra.getLetra().equals(letter)).collect(Collectors.toList());
 
         if(filtro.size()!=0){
-            this.letras.stream().filter(letra-> letra.getLetra().equals(letter)).forEach(letra -> letra.setBool(true));
+            this.letras.stream()
+                    .filter(letra-> letra.getLetra().equals(letter))
+                    .forEach(letra -> letra.setBool(Boolean.TRUE));
             System.out.println("Acertaste la letra " + letter + "!");
-            bool = true;
+            playAgain = Boolean.TRUE;
         }
 
-        System.out.println("La palabra es: " + this.toStringLetters());
+        System.out.println("La palabra es: " + this.toStringLetters()); //printea la palabra con guiones
 
-        return bool;
+        this.winOrLose(); //verifica que con el ultimo acierto, no haya terminado el juego
+
+        if(this.isGameOver()){ //si el juego terminó, no deja que el jugador siga jugando.
+            playAgain = Boolean.FALSE;
+        }
+
+        return playAgain;
     }
 
-    public String getPalabra() {
-        return palabra;
-    }
+    public void winOrLose(){
 
-    public void setPalabra( String palabra ) {
-        this.palabra = palabra;
-    }
+        List<Letra> result = this.letras.stream()
+                .filter(letra -> !letra.isBool())
+                .collect(Collectors.toList());
 
-    public List<Letra> getLetras() {
-        return letras;
-    }
+        System.out.println("RESULT1: " + result.toString());
 
-    public void setLetras( List<Letra> letras ) {
-        this.letras = letras;
+        if(result.size() == 0){
+            System.out.println("RESULT2: " + result.toString());
+            setGameOver(Boolean.TRUE);
+            System.out.println(" xXx Game Over xXx ");
+        }
     }
 
     @Override

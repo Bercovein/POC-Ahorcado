@@ -19,7 +19,7 @@ public class Jugador extends Thread{
 
     synchronized void play(){
 
-        while(playing){
+        while(playing || !palabra.isGameOver()){
             try {
                 System.out.println("Soy " + this.getNombre_jugador() + " y me voy a dormir");
                 wait();
@@ -30,28 +30,31 @@ public class Jugador extends Thread{
             }
         }
 
-        playing = true;
+        setPlaying(Boolean.TRUE);
 
-        if(!palabra.winOrLose()){
+        palabra.winOrLose();
+
+        if(!palabra.isGameOver()){
 
             Random rand = new Random();
-            boolean bool =Boolean.FALSE;
+            boolean playAgain = Boolean.FALSE;
 
             do{
                 if(abcdario.size()!=0) {
                     String letraRandom = abcdario.remove(rand.nextInt(abcdario.size()));
                     System.out.println(this.getNombre_jugador() + " elijo la letra " + letraRandom);
-                    bool = palabra.letterIsHere(letraRandom);
+                    playAgain = palabra.letterIsHere(letraRandom);
                 }
-            }while(bool || !palabra.winOrLose());
+            }while(playAgain);
 
         }else{
             System.out.println("Ganador: " + this.getNombre_jugador());
             //aca deberia guardar el ganador
         }
 
-        playing = false;
-        notify();
+        setPlaying(Boolean.FALSE);
+
+        Thread.currentThread().notify();
 
         try {
             sleep(100);
@@ -60,25 +63,24 @@ public class Jugador extends Thread{
         }
     }
 
+    public static boolean isPlaying() {
+        return playing;
+    }
+
+    public static void setPlaying( boolean playing ) {
+        Jugador.playing = playing;
+    }
+
     public void run(){
 
-        while(!palabra.winOrLose()) play();
-    }
-    public Integer getId_jugador() {
-        return id_jugador;
+        while(!palabra.isGameOver()) play();
     }
 
-    public void setId_jugador( Integer id_jugador ) {
-        this.id_jugador = id_jugador;
-    }
 
     public String getNombre_jugador() {
         return nombre_jugador;
     }
 
-    public void setNombre_jugador( String nombre_jugador ) {
-        this.nombre_jugador = nombre_jugador;
-    }
 
     @Override
     public boolean equals( Object o ) {

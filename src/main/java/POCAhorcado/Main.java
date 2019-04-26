@@ -1,12 +1,5 @@
 package POCAhorcado;
 
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,13 +8,13 @@ public class Main {
 
     public static void main ( String[]args) {
 
-        List<Thread> jugadores = cargarJugadores();
+        Conector conector = new Conector ();
+
+        List<Thread> jugadores = conector.cargarJugadores();
 
         System.out.println("Abecedario: " + Objects.requireNonNull(GameData.abcdario).toString());
 
         System.out.println("Palabra: " + GameData.palabra.toString());
-
-
 
         GameData.palabra.winOrLose();
 
@@ -31,52 +24,11 @@ public class Main {
         jugadores.get(0).start();
         jugadores.get(1).start();
 
+        conector.guardarGanador(GameData.ganador,GameData.palabra);
 
-    }
+        conector.closeConector();
 
-/*
-    public static List<Thread> cargarJugadores(){
-
-        try{
-            List<Thread> listado = new ArrayList<Thread>();
-
-            Connection myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ahorcado", "root", "fusah222");
-            Statement myStatement = myConnection.createStatement();
-            ResultSet myResult = myStatement.executeQuery("select nombre_jugador from jugadores order by rand() limit 2");
-
-            while(myResult.next()){
-
-                Thread player = new Jugador
-                        (myResult.getInt("id_jugador"),
-                        myResult.getString("nombre_jugador"));
-
-                listado.add(player);
-            }
-            return listado;
-
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
-*/
-
-    public static List<Thread> cargarJugadores(){
-
-        try{
-            List<Thread> players = new ArrayList<Thread>();
-
-            Thread readyPlayerOne = new Jugador(1,"Milhouse");
-            Thread readyPlayerTwo = new Jugador(2,"Bart");
-
-            players.add(readyPlayerOne);
-            players.add(readyPlayerTwo);
-
-            return players;
-
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
+        System.out.println(GameData.ganador.toString());
+        System.out.println(GameData.palabra.toString());
     }
 }

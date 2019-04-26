@@ -1,9 +1,6 @@
 package POCAhorcado;
 
 import java.util.Objects;
-import java.util.Random;
-
-import static POCAhorcado.GameData.abcdario;
 import static POCAhorcado.GameData.palabra;
 
 public class Jugador extends Thread{
@@ -17,7 +14,6 @@ public class Jugador extends Thread{
     }
 
 
-
     public void run(){
         while(!palabra.isGameOver()&& !palabra.playing)
         {
@@ -25,6 +21,9 @@ public class Jugador extends Thread{
         }
     }
 
+    public Integer getId_jugador() {
+        return id_jugador;
+    }
 
     public String getNombre_jugador() {
         return nombre_jugador;

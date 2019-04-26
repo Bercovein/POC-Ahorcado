@@ -12,20 +12,26 @@ import static java.lang.Thread.sleep;
 
 public class Palabra {
 
+    private Integer id_palabra;
     private String palabra;
     private List<Letra> letras = new ArrayList<Letra>();
     private boolean gameOver = Boolean.FALSE;
     boolean playing = Boolean.FALSE;
 
 
-    Palabra(String palabra) {
+    Palabra(Integer id_palabra, String palabra) {
 
         this.palabra = palabra;
+        this.id_palabra = id_palabra;
 
         for(char ch: palabra.toCharArray()){
             Letra L = new Letra(Character.toString(ch));
             letras.add(L);
         }
+    }
+
+    public Integer getId_palabra() {
+        return id_palabra;
     }
 
     public boolean isGameOver() {
@@ -67,9 +73,9 @@ public class Palabra {
             playAgain = Boolean.TRUE;
         }
 
-        System.out.println("La palabra es: " + this.toStringLetters()); //printea la palabra con guiones
+        System.out.println("La palabra es: " + this.toStringLetters());
 
-        this.winOrLose(); //verifica que con el ultimo acierto, no haya terminado el juego
+        this.winOrLose();
 
         if(this.isGameOver()){ //si el juego terminó, no deja que el jugador siga jugando.
             playAgain = Boolean.FALSE;
@@ -104,8 +110,7 @@ public class Palabra {
             }while(playAgain);
 
             if(isGameOver()){
-                System.out.println("Ganador: " + jugador.getNombre_jugador());
-                //aca deberia guardar el ganador
+                GameData.ganador = jugador;
             }
         }
 
@@ -150,4 +155,6 @@ public class Palabra {
     public String toString() {
         return "Palabra: " + this.palabra + ", Letras: " +  letras.toString();
     }
+
+
 }

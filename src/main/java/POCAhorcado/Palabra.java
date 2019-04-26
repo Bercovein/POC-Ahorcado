@@ -3,13 +3,19 @@ package POCAhorcado;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
+
+import static POCAhorcado.GameData.abcdario;
+import static POCAhorcado.GameData.palabra;
+import static java.lang.Thread.sleep;
 
 public class Palabra {
 
     private String palabra;
     private List<Letra> letras = new ArrayList<Letra>();
-    private static boolean gameOver = Boolean.FALSE;
+    private boolean gameOver = Boolean.FALSE;
+    boolean playing = Boolean.FALSE;
 
 
     Palabra(String palabra) {
@@ -72,16 +78,54 @@ public class Palabra {
         return playAgain;
     }
 
+    synchronized void play(Jugador jugador){
+
+        while(playing){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        playing  = Boolean.TRUE;
+
+        if(!isGameOver()){
+
+            Random rand = new Random();
+            boolean playAgain = Boolean.FALSE;
+
+            do{
+                if(abcdario.size()!=0) {
+                    String letraRandom = abcdario.remove(rand.nextInt(abcdario.size()));
+                    System.out.println(jugador.getNombre_jugador() + " elijo la letra " + letraRandom);
+                    playAgain = letterIsHere(letraRandom);
+                    System.out.println("-----------------------------------------------------");
+                }
+            }while(playAgain);
+
+            if(isGameOver()){
+                System.out.println("Ganador: " + jugador.getNombre_jugador());
+                //aca deberia guardar el ganador
+            }
+        }
+
+        playing = Boolean.FALSE;
+        notifyAll();
+
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void winOrLose(){
 
         List<Letra> result = this.letras.stream()
                 .filter(letra -> !letra.isBool())
                 .collect(Collectors.toList());
 
-        System.out.println("RESULT1: " + result.toString());
-
         if(result.size() == 0){
-            System.out.println("RESULT2: " + result.toString());
             setGameOver(Boolean.TRUE);
             System.out.println(" xXx Game Over xXx ");
         }

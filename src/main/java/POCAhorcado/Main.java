@@ -1,8 +1,14 @@
 package POCAhorcado;
 
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Main {
@@ -11,20 +17,19 @@ public class Main {
 
         List<Thread> jugadores = cargarJugadores();
 
-        //System.out.println("Abecedario: " + Objects.requireNonNull(GameData.abcdario).toString());
+        System.out.println("Abecedario: " + Objects.requireNonNull(GameData.abcdario).toString());
 
-        //System.out.println("Palabra: " + GameData.palabra.toString());
+        System.out.println("Palabra: " + GameData.palabra.toString());
 
-        jugadores.get(0).stop();
-        jugadores.get(1).stop();
+
 
         GameData.palabra.winOrLose();
-/*
+
         assert jugadores != null;
         System.out.println("Jugadores: " + jugadores.toString());
 
         jugadores.get(0).start();
-        jugadores.get(1).start();*/
+        jugadores.get(1).start();
 
 
     }

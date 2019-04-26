@@ -10,70 +10,19 @@ public class Jugador extends Thread{
 
     private Integer id_jugador;
     private String nombre_jugador;
-    static boolean playing = Boolean.FALSE;
 
     Jugador( Integer id_jugador, String nombre_jugador ) {
         this.id_jugador = id_jugador;
         this.nombre_jugador = nombre_jugador;
     }
 
-    synchronized void play(){
 
-        while(playing || !palabra.isGameOver()){
-            try {
-                System.out.println("Soy " + this.getNombre_jugador() + " y me voy a dormir");
-                wait();
-                System.out.println("Soy " + this.getNombre_jugador() + " y me desperté!");
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        setPlaying(Boolean.TRUE);
-
-        palabra.winOrLose();
-
-        if(!palabra.isGameOver()){
-
-            Random rand = new Random();
-            boolean playAgain = Boolean.FALSE;
-
-            do{
-                if(abcdario.size()!=0) {
-                    String letraRandom = abcdario.remove(rand.nextInt(abcdario.size()));
-                    System.out.println(this.getNombre_jugador() + " elijo la letra " + letraRandom);
-                    playAgain = palabra.letterIsHere(letraRandom);
-                }
-            }while(playAgain);
-
-        }else{
-            System.out.println("Ganador: " + this.getNombre_jugador());
-            //aca deberia guardar el ganador
-        }
-
-        setPlaying(Boolean.FALSE);
-
-        Thread.currentThread().notify();
-
-        try {
-            sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean isPlaying() {
-        return playing;
-    }
-
-    public static void setPlaying( boolean playing ) {
-        Jugador.playing = playing;
-    }
 
     public void run(){
-
-        while(!palabra.isGameOver()) play();
+        while(!palabra.isGameOver()&& !palabra.playing)
+        {
+            palabra.play(this);
+        }
     }
 
 
